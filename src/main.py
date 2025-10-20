@@ -1,6 +1,15 @@
+import os
 import streamlit as st
-from aws.s3 import S3Helper
+from auth.setup import setup_aws
+from auth.login import login_user_with_google   
 
-st.title("Welcome to Platform Shift Hub") 
+st.title("Welcome to Platform Shift Hub")
 
-s3_helper = S3Helper(env_var="SPLASH_BUCKET")
+def main():
+    if user := login_user_with_google():
+        st.write(user)
+        setup_aws()
+
+
+if __name__ == "__main__":
+    main()
