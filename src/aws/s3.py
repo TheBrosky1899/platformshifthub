@@ -1,4 +1,3 @@
-import os
 import logging
 from typing import Optional, List, Dict, Any
 import boto3
@@ -17,9 +16,9 @@ class S3Helper:
     def __init__(
         self,
         *,
+        bucket_name: str,
         s3_client: Optional[Any] = None,
         session: Optional[Any] = None,
-        env_var: str = "S3_BUCKET_NAME",
     ) -> None:
         """
         Initialize the helper. Reads the bucket name from the given environment variable and
@@ -30,9 +29,7 @@ class S3Helper:
         :param env_var: environment variable name that contains the bucket name
         :raises ValueError: if the environment variable is not set
         """
-        self.bucket_name = os.getenv(env_var)
-        if not self.bucket_name:
-            raise ValueError(f"Environment variable {env_var} is not set or empty")
+        self.bucket_name = bucket_name
 
         # Priority of S3 client resolution:
         # 1. explicit s3_client parameter
