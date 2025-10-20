@@ -8,8 +8,10 @@ def setup_aws():
     # If AWS credentials are provided via environment variables, create a boto3 Session
     # and pass a client created from that session into the S3Helper. This allows the
     # app to use explicit credentials instead of the default credential resolution.
-    aws_key = os.getenv("AWS_ACCESS_KEY_ID")
-    aws_secret = os.getenv("AWS_SECRET_ACCESS_KEY")
+    aws_key = st.secrets["aws"]["AWS_ACCESS_KEY_ID"] or os.getenv("AWS_ACCESS_KEY_ID")
+    aws_secret = st.secrets["aws"]["AWS_SECRET_ACCESS_KEY"] or os.getenv(
+        "AWS_SECRET_ACCESS_KEY"
+    )
     aws_session_token = os.getenv("AWS_SESSION_TOKEN")
 
     if aws_key and aws_secret:
