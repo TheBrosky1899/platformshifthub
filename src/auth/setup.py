@@ -1,6 +1,7 @@
 import boto3
 from aws.s3 import S3Helper
 from helpers.modules import ModuleHelper
+from helpers.pages import PageHelper
 import streamlit as st
 
 
@@ -27,6 +28,10 @@ def setup_aws():
         )
 
 
-def setup_helpers():
-    st.session_state.module_helper = ModuleHelper()
+def setup_helpers() -> st.navigation:
+    # st.session_state.module_helper = ModuleHelper()
+    page_helper = PageHelper()
     
+    st.session_state.page_helper = page_helper
+    
+    return page_helper.page_navigation

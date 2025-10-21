@@ -11,4 +11,4 @@ cdk.out
 
 .streamlit/secrets.toml
 
-src/external_modules/*
+# src/external_modules/*

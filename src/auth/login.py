@@ -5,6 +5,7 @@ def login_user_with_google() -> st._UserInfoProxy:
         if st.button("Log in"):
             st.login()
     else:
-        if st.button("Log out"):
-            st.logout()
+        with st.sidebar:
+            if st.button("Log out"):
+                st.logout()
         return st.user
