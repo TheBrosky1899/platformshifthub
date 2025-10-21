@@ -1,5 +1,6 @@
 import boto3
 from aws.s3 import S3Helper
+from helpers.modules import ModuleHelper
 import streamlit as st
 
 
@@ -16,9 +17,16 @@ def setup_aws():
         )
 
         s3_client = session.client("s3")
-        st.session_state.s3_helper = S3Helper(
+        return S3Helper(
             s3_client=s3_client, bucket_name=st.secrets["aws"]["SPLASH_BUCKET"]
         )
     else:
         # Fall back to default boto3 client resolution (env, shared config, iam role, etc.)
-        st.session_state.s3_helper = S3Helper(bucket_name=st.secrets["aws"]["SPLASH_BUCKET"])
+        st.session_state.s3_helper = S3Helper(
+            bucket_name=st.secrets["aws"]["SPLASH_BUCKET"]
+        )
+
+
+def setup_helpers():
+    st.session_state.module_helper = ModuleHelper()
+    

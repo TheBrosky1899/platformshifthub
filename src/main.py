@@ -1,8 +1,10 @@
 import streamlit as st
-from auth.setup import setup_aws
+from auth.setup import setup_aws, setup_helpers
 from auth.login import login_user_with_google
+import json
+import logging
 
-from aws.s3 import S3Helper
+logger = logging.getLogger(__name__)
 
 st.set_page_config(page_title="Platform Shift Hub", page_icon="🚀", layout="wide")
 
@@ -11,11 +13,15 @@ st.title("Welcome to Platform Shift Hub")
 
 def main():
     if user := login_user_with_google():
-        st.write(user)
+        
+        allowed_users = json.load(open("src/admin/allowed_users.json"))
+        if user.email not in allowed_users:
+            st.error("You do not have permission to access this application.")
+            st.stop()
+        logger.info(f"User {user.email} logged in successfully.")
+        # later todo: async
         setup_aws()
-
-        s3_helper: S3Helper = st.session_state.s3_helper
-        st.write(s3_helper.list_keys())
+        setup_helpers()
 
 
 if __name__ == "__main__":
